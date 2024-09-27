@@ -8,6 +8,7 @@
 5. [Authenticate your API token with doctl](#3-authenticate-your-api-token-with-doctl)
 6. [Create a Custom Droplet](#4-create-a-custom-droplet)
 7. [SSH Key Setup](#5-ssh-key-setup)
+8. [Configure Cloud-Init](#6-configure-cloud-init)
 
 ## Introduction
 Before you set up your DigitalOcean with doctl, you must have a basic understanding of what those are. 
@@ -39,7 +40,9 @@ Now that you know some general information and the prerequisites, let's get star
 Before you set up your DigitalOcean, you must make sure that you have doctl successfully installed on your computer. 
 
 ### Step 1: Run this command to download the latest version of doctl
-```sudo pacman -S doctl``` 
+```
+sudo pacman -S doctl
+``` 
 * This command installs doctl on Arch Linux
 
 **This is how it looks on the Terminal:**  
@@ -48,7 +51,9 @@ Before you set up your DigitalOcean, you must make sure that you have doctl succ
 * this command installs doctl on Arch Linux
 
 ### Step 2: Verify that doctl is installed by running this command
-```doctl version```
+```
+doctl version
+```
 * This command checks the version of doctl installed on your computer
 
 **This is how it looks on the Terminal:** 
@@ -97,7 +102,9 @@ This will open a page that looks like this:
 ## 3. Authenticate your API token with doctl
 After you have created an API token in DigitalOcean, you need to authenticate it with doctl. This will allow you to use doctl to manage your DigitalOcean resources.
 ### Step 1: Run this command to authenticate your API token with doctl
-```doctl auth init```
+```
+doctl auth init
+```
 * This command initializes the authentication process with doctl
 
 ### Step 2: Enter your API token when prompted
@@ -106,7 +113,9 @@ After you have created an API token in DigitalOcean, you need to authenticate it
 ![doctl-auth-init](assets/doctl-auth-init.png)
 
 ### Step 3: Verify that you are authenticated by running this command
-```doctl account get```
+```
+doctl account get
+```
 
 **This is how it looks on the Terminal:**  
 ![doctl-account-get](assets/doctl-account-get.png)
@@ -124,14 +133,19 @@ Now that you have doctl installed and authenticated, you can create a custom Dro
 3. Copy the link to the image
    
 ### Step 2: Run the command below to upload the image to your DigitalOcean account
-```doctl compute image create <custom image name> --image-url <image link> --region <region> --image-distribution <distro name>```  
+```
+doctl compute image create <custom image name> --image-url <image link> --region <region> --image-distribution <distro name>
+```  
 Replace these placeholders with the appropriate values:
 * `<custom image name>`: The name you want to give to your custom image
 * `<image link>`: The link to the Arch Linux cloud image ending with `.qcow2`
 * `<region>`: The region where you want to create the image (e.g., `sfo3`)
 * `<distro name>`: The name of the distribution (e.g., `Arch Linux`)
 
-For this instance, run this command ```doctl compute image create test-image --image-url https://gitlab.archlinux.org/archlinux/arch-boxes/-/packages/1545/Arch-Linux-x86_64-cloudimg-20240915.263127.qcow2 --region sfo3 --image-distribution "Arch Linux"```
+For this instance, run this command 
+```
+doctl compute image create test-image --image-url https://gitlab.archlinux.org/archlinux/arch-boxes/-/packages/1545/Arch-Linux-x86_64-cloudimg-20240915.263127.qcow2 --region sfo3 --image-distribution "Arch Linux"
+```
 
 What this command does:
 * Creates a custom image in your DigitalOcean account
@@ -140,7 +154,9 @@ What this command does:
 ![doctl-compute-image-create](assets/doctl-compute-image-create.png)
 
 ### Step 3: Verify that the image was created by running this command
-```doctl compute image list-user```  
+```
+doctl compute image list-user
+```  
 What this command does:
 * Lists the custom images you have created in your DigitalOcean account
 
@@ -169,7 +185,9 @@ Now let's set up an SSH key in DigitalOcean.
 ### Step 1: Generate an SSH Key Pair
 1. Open a terminal on your local machine
 2. Run this command to generate an SSH key pair
-```ssh-keygen -t ed25519 -f ~/.ssh/<key-name> -C "<youremail@email.com>"```
+```
+ssh-keygen -t ed25519 -f ~/.ssh/<key-name> -C "<youremail@email.com>"
+```
 Replace these placeholders with the appropriate values:
 * `<key-name>`: The name you want to give to your SSH key pair
 * `<your email address>`: Your email address
@@ -187,7 +205,9 @@ What this command does:
 
 ### Step 2: Add the Public Key to DigitalOcean by using doctl
 1. Run this command to add the public key to DigitalOcean
-```doctl compute ssh-key import <key-name> --public-key-file ~/.ssh/<key-name>.pub```
+```
+doctl compute ssh-key import <key-name> --public-key-file ~/.ssh/<key-name>.pub
+```
 Replace these placeholders with the appropriate values:
 * `<key-name>`: The name you gave to your SSH key pair
 * `<key-name>.pub`: The public key file path
@@ -199,7 +219,9 @@ Replace these placeholders with the appropriate values:
 ![doctl-compute-ssh-key-import](assets/doctl-compute-ssh-key-import.png)
 
 ### Step 3: Verify that the SSH key was added by running this command
-```doctl compute ssh-key list```
+```
+doctl compute ssh-key list
+```
 What this command does:
 * Lists the SSH keys you have added to your DigitalOcean account
 
@@ -223,12 +245,16 @@ Now let's configure Cloud-Init for your Droplet.
 
 ### Step 1: Make sure you have neovim installed
 1. Run this command to install neovim
-```sudo pacman -S neovim```
+```
+sudo pacman -S neovim
+```
 * This command installs neovim on Arch Linux
 
 ### Step 2: Create a Cloud-Init configuration file
 1. Run this command to create a Cloud-Init configuration file
-```nvim cloud-init.yml```
+```
+nvim cloud-init.yml
+```
 * This command opens a new file named `cloud-init.yml` in neovim
 
 2. Add the following configuration to the file
@@ -266,5 +292,90 @@ disable_root: true
 
 3. Save and exit the file
    1. You can save by pressing `:wq` and then Enter
-4. Run this command ```cat ~/.ssh/<your ssh key ending in .pub>``` to get the public key string
-5. Copy the public key string by running this command 
+4. Run this command to get the public key string
+   ```
+   cat ~/.ssh/<your ssh key ending in .pub>
+   ``` 
+5. Copy the public key string 
+
+Now that you have configured the ```cloud-config.yaml``` file, you are ready to deploy your Droplet with Cloud-Init. 
+
+## 7. Deploy a Droplet with Cloud-Init
+### Step 1: Run this command
+```
+doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <SSH key ID> --region <your preferred region slug> --user-data-file ~/cloud-config.yml --wait <droplet name>
+``` 
+Replace these placeholders with the appropriate values:
+* `<image ID>`: The ID of the custom image you created
+  * You can view this by running 
+    ```
+    doctl compute image list
+    ```
+    * This will list all the images available and the custom image you created 
+* `<SSH key ID>`: The ID of the SSH key you added to your DigitalOcean account
+  * You can view this by running 
+    ```
+    doctl compute ssh-key list
+    ```
+    * This will list all the SSH keys available
+* `<your preferred region slug>`: The region where you want to create the Droplet (e.g., `sfo3`)
+  * You can view the available regions by running 
+    ```
+    doctl compute region list
+    ```
+    * This will list all the regions available
+* `<droplet name>`: The name you want to give to your Droplet  
+  
+What this command does: 
+* `doctl compute droplet create` creates a new Droplet
+* `--image <image ID>` specifies the custom image you created
+* `--size s-1vcpu-1gb` specifies the size of the Droplet, in this case, 1 vCPU and 1 GB of RAM
+* `--ssh-keys <SSH key ID>` specifies the SSH key you added to your DigitalOcean account
+* `--region <your preferred region slug>` specifies the region where you want to create the Droplet
+* `--user-data-file ~/cloud-config.yml` specifies the Cloud-Init configuration file
+* `--wait` waits for the Droplet to be created before returning
+* `<droplet name>` specifies the name you want to give to your Droplet
+
+**This is how it looks on the Terminal:** 
+![doctl-compute-droplet-create](assets/doctl-compute-droplet-create.png)
+
+> [!NOTE]
+> It may take a few minutes for the Droplet to be created. 
+
+### Step 2: Verify that the Droplet was created by running this command
+```
+ssh example-user@<your-droplet-ip-address>
+``` 
+Replace these placeholders with the appropriate values:
+* `example-user`: The user you specified in the Cloud-Init configuration
+* `<your-droplet-ip-address>`: The IP address of your Droplet
+  
+What this command does:
+*  `ssh` connects to your Droplet via SSH
+* `example-user@<your-droplet-ip-address>` specifies the user and IP address of your Droplet
+
+**This is how it looks on the Terminal:**
+![ssh-example-user-your-droplet-ip-address](assets/ssh-example-user-your-droplet-ip-address.png)
+
+Congratulations! You have successfully deployed a Droplet with Cloud-Init. You can now access your Droplet via SSH and start using it.
+
+## 8. References
+
+Canonical Group. (2024). Introduction to cloud-init. Cloud-init 24.3.1 documentation. https://docs.cloud-init.io/en/latest/explanation/introduction.html  
+
+DigitalOcean. (2024, June 21). Doctl Command Line Interface (CLI). DigitalOcean Documentation. https://docs.digitalocean.com/reference/doctl/#:~:text=doctl%20allows%20you%20to%20interact%20with%20the%20DigitalOcean,firewalls%2C%20load%20balancers%2C%20database%20clusters%2C%20domains%2C%20and%20more
+
+DigitalOcean. (2024, August 14). How to Automate Droplet Setup with cloud-init. DigitalOcean Documentation. https://docs.digitalocean.com/products/droplets/how-to/automate-setup-with-cloud-init/
+
+DigitalOcean. (2024, August 5). How to Create a Personal Access Token. DigitalOcean Documentation. https://docs.digitalocean.com/reference/api/create-personal-access-token/
+
+DigitalOcean. (2024, August 5). How to install and configure doctl. DigitalOcean Documentation. https://docs.digitalocean.com/reference/doctl/how-to/install/
+
+
+DigitalOcean. (2024, July 2). How to Upload Custom Images. DigitalOcean Documentation. https://docs.digitalocean.com/products/custom-images/how-to/upload/
+
+GitHub Docs. (2024). Adding a new SSH key to your GitHub account. https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account
+
+Liles, B. (2016, March 28). Introducing doctl: the Command Line Interface to DigitalOcean. https://www.digitalocean.com/blog/introducing-doctl
+
+Walker, J. (2021, February 8). How to Get Started With Doctl, DigitalOcean’s Command-Line Client. https://www.howtogeek.com/devops/how-to-get-started-with-doctl-digitaloceans-command-line-client/#:~:text=Learning%20doctl%20can%20save%20you%20time%20when%20managing,supports%20almost%20all%20API%20operations%20and%20resource%20types
