@@ -219,8 +219,9 @@ doctl compute ssh-key import <key-name> --public-key-file ~/.ssh/<key-name>.pub
 ```
 Replace these placeholders with the appropriate values:
 * `<key-name>`: The name you gave to your SSH key pair
-* `<key-name>.pub`: The public key file path
-* What this command does:
+* `<key-name>.pub`: The public key file path  
+
+What this command does:
 * Adds the public key to your DigitalOcean account
 * Allows you to use the private key to authenticate with your Droplet
 
@@ -295,24 +296,28 @@ disable_root: true
 * `<user name>`: The name you want to give to the user
 * `<user group>`: The group you want to assign to the user
 * `<your ssh public key string>`: The public key string from your SSH key pair
+  * Run this command to get the public key string
+       ```
+       cat ~/.ssh/<your ssh key ending in .pub>
+       ``` 
+    * What this command does: 
+      * `cat` displays the contents of a file
+      * `~/.ssh/<your ssh key ending in .pub>` specifies the path to your public key file
+    * Copy paste the string so that you can paste it to the `cloud-init.yml` file
 
 **This is how it looks on the Terminal:**
 ![nvim-cloud-init-yml](assets/nvim-cloud-init-yml.png)
 
+
 3. Save and exit the file
    1. You can save by pressing `:wq` and then Enter
-4. Run this command to get the public key string
-   ```
-   cat ~/.ssh/<your ssh key ending in .pub>
-   ``` 
-5. Copy the public key string 
 
-Now that you have configured the ```cloud-config.yaml``` file, you are ready to deploy your Droplet with Cloud-Init. 
+Now that you have configured the ```cloud-init.yaml``` file, you are ready to deploy your Droplet with Cloud-Init. 
 
 ## 7. Deploy a Droplet with Cloud-Init
 ### Step 1: Run this command
 ```
-doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <SSH key ID> --region <your preferred region slug> --user-data-file ~/cloud-config.yml --wait <droplet name>
+doctl compute droplet create --image <image ID> --size s-1vcpu-1gb --ssh-keys <SSH key ID> --region <your preferred region slug> --user-data-file ~/cloud-init.yml --wait <droplet name>
 ``` 
 Replace these placeholders with the appropriate values:
 * `<image ID>`: The ID of the custom image you created
@@ -341,7 +346,7 @@ What this command does:
 * `--size s-1vcpu-1gb` specifies the size of the Droplet, in this case, 1 vCPU and 1 GB of RAM
 * `--ssh-keys <SSH key ID>` specifies the SSH key you added to your DigitalOcean account
 * `--region <your preferred region slug>` specifies the region where you want to create the Droplet
-* `--user-data-file ~/cloud-config.yml` specifies the Cloud-Init configuration file
+* `--user-data-file ~/cloud-init.yml` specifies the Cloud-Init configuration file
 * `--wait` waits for the Droplet to be created before returning
 * `<droplet name>` specifies the name you want to give to your Droplet
 
@@ -351,7 +356,7 @@ What this command does:
 > [!NOTE]
 > It may take a few minutes for the Droplet to be created. 
 
-### Step 2: Verify that the Droplet was created by running this command
+### Step 2: Connect to your Droplet
 ```
 ssh example-user@<your-droplet-ip-address>
 ``` 
@@ -367,6 +372,18 @@ What this command does:
 ![ssh-example-user-your-droplet-ip-address](assets/ssh-example-user-your-droplet-ip-address.png)
 
 Congratulations! You have successfully deployed a Droplet with Cloud-Init. You can now access your Droplet via SSH and start using it.
+
+### Step 3: Verify that cloud-init installed the packages
+One of the packages that you installed with this guide is neovim. You can check that it was installed by running this command.
+```
+nvim --version
+```
+* This command checks the version of neovim installed on your Droplet
+
+**This is how it looks on the Terminal:**  
+![nvim-version](assets/nvim-version.png)
+
+Congratulations! This concludes the guide to setting up and managing DigitalOcean with doctl and cloud-init. You have successfully created a custom Droplet, set up an SSH key, configured Cloud-Init, and deployed a Droplet with Cloud-Init.
 
 ## 8. References
 
