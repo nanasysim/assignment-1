@@ -9,6 +9,8 @@
 6. [Create a Custom Droplet](#4-create-a-custom-droplet)
 7. [SSH Key Setup](#5-ssh-key-setup)
 8. [Configure Cloud-Init](#6-configure-cloud-init)
+9. [Deploy a Droplet with Cloud-Init](#7-deploy-a-droplet-with-cloud-init)
+10. [References](#8-references)
 
 ## Introduction
 Before you set up your DigitalOcean with doctl, you must have a basic understanding of what those are. 
@@ -43,18 +45,20 @@ Before you set up your DigitalOcean, you must make sure that you have doctl succ
 ```
 sudo pacman -S doctl
 ``` 
-* This command installs doctl on Arch Linux
+* `sudo` allows you to run the command as a superuser
+* `pacman` is the package manager for Arch Linux
+* `-S` installs the specified package
+* `doctl` is the package name for the DigitalOcean command-line interface
 
 **This is how it looks on the Terminal:**  
 
 ![sudo-pacman-doctl](assets/sudo-pacman-doctl.png)
-* this command installs doctl on Arch Linux
 
 ### Step 2: Verify that doctl is installed by running this command
 ```
 doctl version
 ```
-* This command checks the version of doctl installed on your computer
+* `doctl version` displays the version of doctl installed on your computer
 
 **This is how it looks on the Terminal:** 
 
@@ -80,7 +84,7 @@ Now let's create an API token in DigitalOcean.
 
 ### Step 1: Log in to DigitalOcean and navigate to the API section
 1. Log in to your DigitalOcean account
-2. Click on the "API" link in the left-hand navigation menu
+2. Click on the **API** link in the left-hand navigation menu
 
 ![API Section](/assets/api-link-left-hand-menu.png)
 
@@ -105,7 +109,7 @@ After you have created an API token in DigitalOcean, you need to authenticate it
 ```
 doctl auth init
 ```
-* This command initializes the authentication process with doctl
+* `doctl auth init` initializes the authentication process with DigitalOcean
 
 ### Step 2: Enter your API token when prompted
 
@@ -116,6 +120,7 @@ doctl auth init
 ```
 doctl account get
 ```
+* `doctl account get` retrieves information about your DigitalOcean account
 
 **This is how it looks on the Terminal:**  
 ![doctl-account-get](assets/doctl-account-get.png)
@@ -147,8 +152,11 @@ For this instance, run this command
 doctl compute image create test-image --image-url https://gitlab.archlinux.org/archlinux/arch-boxes/-/packages/1545/Arch-Linux-x86_64-cloudimg-20240915.263127.qcow2 --region sfo3 --image-distribution "Arch Linux"
 ```
 
-What this command does:
-* Creates a custom image in your DigitalOcean account
+* `doctl compute image create` creates a custom image in your DigitalOcean account
+* `test-image` is the name of the custom image
+* `--image-url` specifies the URL of the image you want to upload
+* `--region` specifies the region where you want to create the image
+* `--image-distribution` specifies the distribution of the image
 
 **This is how it looks on the Terminal:**  
 ![doctl-compute-image-create](assets/doctl-compute-image-create.png)
@@ -157,8 +165,7 @@ What this command does:
 ```
 doctl compute image list-user
 ```  
-What this command does:
-* Lists the custom images you have created in your DigitalOcean account
+* `doctl compute image list-user` lists the custom images you have created in your DigitalOcean account
 
 **This is how it looks on the Terminal:**  
 ![doctl-compute-image-list-user](assets/doctl-compute-image-list-user.png)
@@ -191,10 +198,12 @@ ssh-keygen -t ed25519 -f ~/.ssh/<key-name> -C "<youremail@email.com>"
 Replace these placeholders with the appropriate values:
 * `<key-name>`: The name you want to give to your SSH key pair
 * `<your email address>`: Your email address
+
 What this command does:
-* Generates an SSH key pair using the Ed25519 algorithm
-* One key pair is a private key which is stored within the `~/.ssh` directory
-* The other key pair is a public key which will be used to authenticate with the server
+* `ssh-keygen` generates an SSH key pair
+* `-t ed25519` specifies the type of key to generate (Ed25519)
+* `-f ~/.ssh/<key-name>` specifies the file path for the key pair
+* `-C "<your email address>"` adds a comment to the key pair with your email address
 
 1. Press Enter
 2. Enter a passphrase (optional)
@@ -354,7 +363,7 @@ What this command does:
 *  `ssh` connects to your Droplet via SSH
 * `example-user@<your-droplet-ip-address>` specifies the user and IP address of your Droplet
 
-**This is how it looks on the Terminal:**
+**This is how it looks on the Terminal:**  
 ![ssh-example-user-your-droplet-ip-address](assets/ssh-example-user-your-droplet-ip-address.png)
 
 Congratulations! You have successfully deployed a Droplet with Cloud-Init. You can now access your Droplet via SSH and start using it.
