@@ -7,6 +7,7 @@
 4. [Create an API Token in DigitalOcean](#2-create-an-api-token-in-digitalocean)
 5. [Authenticate your API token with doctl](#3-authenticate-your-api-token-with-doctl)
 6. [Create a Custom Droplet](#4-create-a-custom-droplet)
+7. [SSH Key Setup](#5-ssh-key-setup)
 
 ## Introduction
 Before you set up your DigitalOcean with doctl, you must have a basic understanding of what those are. 
@@ -166,3 +167,56 @@ Before you can create a Droplet, you need to set up an SSH key in DigitalOcean. 
 Now let's set up an SSH key in DigitalOcean.
 
 ### Step 1: Generate an SSH Key Pair
+1. Open a terminal on your local machine
+2. Run this command to generate an SSH key pair
+```ssh-keygen -t ed25519 -f ~/.ssh/<key-name> -C "<youremail@email.com>"```
+Replace these placeholders with the appropriate values:
+* `<key-name>`: The name you want to give to your SSH key pair
+* `<your email address>`: Your email address
+What this command does:
+* Generates an SSH key pair using the Ed25519 algorithm
+* One key pair is a private key which is stored within the `~/.ssh` directory
+* The other key pair is a public key which will be used to authenticate with the server
+
+1. Press Enter
+2. Enter a passphrase (optional)
+3. Press Enter again
+
+**This is how it looks on the Terminal:**
+![ssh-keygen](assets/ssh-keygen.png)
+
+### Step 2: Add the Public Key to DigitalOcean by using doctl
+1. Run this command to add the public key to DigitalOcean
+```doctl compute ssh-key import <key-name> --public-key-file ~/.ssh/<key-name>.pub```
+Replace these placeholders with the appropriate values:
+* `<key-name>`: The name you gave to your SSH key pair
+* `<key-name>.pub`: The public key file path
+* What this command does:
+* Adds the public key to your DigitalOcean account
+* Allows you to use the private key to authenticate with your Droplet
+
+**This is how it looks on the Terminal:**
+![doctl-compute-ssh-key-import](assets/doctl-compute-ssh-key-import.png)
+
+### Step 3: Verify that the SSH key was added by running this command
+```doctl compute ssh-key list```
+What this command does:
+* Lists the SSH keys you have added to your DigitalOcean account
+
+**This is how it looks on the Terminal:**
+![doctl-compute-ssh-key-list](assets/doctl-compute-ssh-key-list.png)
+
+Congratulations! You have successfully set up an SSH key in DigitalOcean. You can now create a Droplet and securely access it via SSH.
+
+## 6. Configure Cloud-Init
+### What is Cloud-Init?
+* Multi-distribution package that handles early initialization of a cloud instance
+* Supports a variety of cloud providers, including DigitalOcean
+* Enables you to configure your Droplet during its first boot
+* Automates the process of setting up your Droplet with user data, scripts, and other configurations
+
+### Why use Cloud-Init?
+* Automates the configuration of your Droplet
+* Saves time by setting up your Droplet with user data, scripts, and other configurations
+
+Now let's configure Cloud-Init for your Droplet.
