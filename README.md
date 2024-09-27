@@ -5,6 +5,8 @@
 2. [Prerequisites](#prerequisites)
 3. [Install doctl](#1-install-doctl)
 4. [Create an API Token in DigitalOcean](#2-create-an-api-token-in-digitalocean)
+5. [Authenticate your API token with doctl](#3-authenticate-your-api-token-with-doctl)
+6. [Create a Custom Droplet](#4-create-a-custom-droplet)
 
 ## Introduction
 Before you set up your DigitalOcean with doctl, you must have a basic understanding of what those are. 
@@ -112,3 +114,55 @@ After you have created an API token in DigitalOcean, you need to authenticate it
 Congratulations! You have successfully authenticated your API token with doctl. You can now use doctl to manage your DigitalOcean resources.
 
 ## 4. Create a Custom Droplet
+Now that you have doctl installed and authenticated, you can create a custom Droplet in DigitalOcean using doctl. A Droplet is a virtual private server that you can use to host websites, applications, and other services.
+
+### Step 1: Get the custom image
+1. Go to [this website](https://gitlab.archlinux.org/archlinux/arch-boxes/-/packages/1545)
+2. Find the latest version of the cloud image for Arch Linux that ends with `.qcow2`  
+![Arch Linux Cloud Image](assets/arch-linux-cloud-image.png)  
+3. Copy the link to the image
+   
+### Step 2: Run the command below to upload the image to your DigitalOcean account
+```doctl compute image create <custom image name> --image-url <image link> --region <region> --image-distribution <distro name>```  
+Replace these placeholders with the appropriate values:
+* `<custom image name>`: The name you want to give to your custom image
+* `<image link>`: The link to the Arch Linux cloud image ending with `.qcow2`
+* `<region>`: The region where you want to create the image (e.g., `sfo3`)
+* `<distro name>`: The name of the distribution (e.g., `Arch Linux`)
+
+For this instance, run this command ```doctl compute image create test-image --image-url https://gitlab.archlinux.org/archlinux/arch-boxes/-/packages/1545/Arch-Linux-x86_64-cloudimg-20240915.263127.qcow2 --region sfo3 --image-distribution "Arch Linux"```
+
+What this command does:
+* Creates a custom image in your DigitalOcean account
+
+**This is how it looks on the Terminal:**  
+![doctl-compute-image-create](assets/doctl-compute-image-create.png)
+
+### Step 3: Verify that the image was created by running this command
+```doctl compute image list-user```  
+What this command does:
+* Lists the custom images you have created in your DigitalOcean account
+
+**This is how it looks on the Terminal:**  
+![doctl-compute-image-list-user](assets/doctl-compute-image-list-user.png)
+
+Congratulations! You have successfully created a custom image in DigitalOcean. 
+
+## 5. SSH Key Setup
+Before you can create a Droplet, you need to set up an SSH key in DigitalOcean. This will allow you to securely access your Droplet via SSH without needing a password.
+
+### What is an SSH Key?
+* Secure Shell (SSH) key pair used for secure communication between a client and a server
+* Consists of a public key and a private key
+* Public key is placed on the server, while the private key is kept on the client
+* Provides a secure way to authenticate and access a server without using a password
+
+### Why do you need an SSH Key?
+* Securely access your Droplet via SSH without needing a password
+* Enhance security by using public-key cryptography
+* Prevent unauthorized access to your server
+* Simplify the authentication process
+
+Now let's set up an SSH key in DigitalOcean.
+
+### Step 1: Generate an SSH Key Pair
