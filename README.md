@@ -42,6 +42,7 @@ Before you set up your DigitalOcean, you must make sure that you have doctl succ
 **This is how it looks on the Terminal:**  
 
 ![sudo-pacman-doctl](assets/sudo-pacman-doctl.png)
+* this command installs doctl on Arch Linux
 
 ### Step 2: Verify that doctl is installed by running this command
 ```doctl version```
@@ -89,3 +90,25 @@ This will open a page that looks like this:
 
 >[!NOTE]
 >Keep tokens secure, as they function like passwords. If a token is compromised, revoke it immediately.
+
+## 3. Authenticate your API token with doctl
+After you have created an API token in DigitalOcean, you need to authenticate it with doctl. This will allow you to use doctl to manage your DigitalOcean resources.
+### Step 1: Run this command to authenticate your API token with doctl
+```doctl auth init```
+* This command initializes the authentication process with doctl
+
+### Step 2: Enter your API token when prompted
+
+**This is how it looks on the Terminal:**
+![doctl-auth-init](assets/doctl-auth-init.png)
+
+### Step 3: Verify that you are authenticated by running this command
+```doctl account get```
+
+**This is how it looks on the Terminal:**  
+![doctl-account-get](assets/doctl-account-get.png)
+* You should get an output similar to this
+
+Congratulations! You have successfully authenticated your API token with doctl. You can now use doctl to manage your DigitalOcean resources.
+
+## 4. Create a Custom Droplet
