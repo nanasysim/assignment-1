@@ -69,3 +69,23 @@ Before you can use doctl to manage your DigitalOcean resources, you need to crea
 
 Now let's create an API token in DigitalOcean.
 
+### Step 1: Log in to DigitalOcean and navigate to the API section
+1. Log in to your DigitalOcean account
+2. Click on the "API" link in the left-hand navigation menu
+
+![API Section](/assets/api-link-left-hand-menu.png)
+
+### Step 2: Generate a New Token
+1. Click on the **Generate New Token** button  
+![Generate New Token](/assets/generate-new-token-button.png)
+
+This will open a page that looks like this:  
+![New Token Page](/assets/new-token-page.png)
+
+### Step 3: Fill out the token details
+* Token name: Give your token a descriptive name to help you identify its purpose
+* Expiration: Choose when you want the token to expire (optional)
+* Scopes: Select the permissions you want to grant to this token
+
+>[!NOTE]
+>Keep tokens secure, as they function like passwords. If a token is compromised, revoke it immediately.
