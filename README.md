@@ -220,3 +220,51 @@ Congratulations! You have successfully set up an SSH key in DigitalOcean. You ca
 * Saves time by setting up your Droplet with user data, scripts, and other configurations
 
 Now let's configure Cloud-Init for your Droplet.
+
+### Step 1: Make sure you have neovim installed
+1. Run this command to install neovim
+```sudo pacman -S neovim```
+* This command installs neovim on Arch Linux
+
+### Step 2: Create a Cloud-Init configuration file
+1. Run this command to create a Cloud-Init configuration file
+```nvim cloud-init.yml```
+* This command opens a new file named `cloud-init.yml` in neovim
+
+2. Add the following configuration to the file
+```
+#cloud-config
+users:
+  - name: <user name>
+    primary_group: <user group>
+    groups: wheel
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - ssh-ed25519 <your ssh public key string>
+
+packages:
+  - ripgrep
+  - rsync
+  - neovim
+  - fd
+  - less
+  - man-db
+  - bash-completion
+  - tmux
+
+disable_root: true
+```   
+
+* Replace these placeholders with the appropriate values:
+* `<user name>`: The name you want to give to the user
+* `<user group>`: The group you want to assign to the user
+* `<your ssh public key string>`: The public key string from your SSH key pair
+
+**This is how it looks on the Terminal:**
+![nvim-cloud-init-yml](assets/nvim-cloud-init-yml.png)
+
+3. Save and exit the file
+   1. You can save by pressing `:wq` and then Enter
+4. Run this command ```cat ~/.ssh/<your ssh key ending in .pub>``` to get the public key string
+5. Copy the public key string by running this command 
