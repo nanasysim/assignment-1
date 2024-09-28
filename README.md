@@ -250,13 +250,13 @@ Congratulations! You have successfully set up an SSH key in DigitalOcean. You ca
 Now let's configure Cloud-Init for your Droplet.
 
 ### Step 1: Make sure you have neovim installed
+If you already have neovim installed, you can skip this step.
 1. Run this command to install neovim
 ```
 sudo pacman -S neovim
 ```
 * This command installs neovim on Arch Linux
 
-> [!NOTE] If you already have neovim installed, you can skip this step.
 
 ### Step 2: Create a Cloud-Init configuration file
 1. Run this command to create a Cloud-Init configuration file
